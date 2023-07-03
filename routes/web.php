@@ -5,8 +5,10 @@ use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OrganizationsController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\RegistrationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +34,12 @@ Route::post('login', [AuthenticatedSessionController::class, 'store'])
 
 Route::delete('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
+
+Route::get('register', [RegistrationsController::class, 'create'])
+    ->name('register')
+    ->middleware('guest');
+
+
 
 // Dashboard
 
@@ -69,7 +77,39 @@ Route::put('users/{user}/restore', [UsersController::class, 'restore'])
     ->name('users.restore')
     ->middleware('auth');
 
+
+// Orders 
+
+Route::get('orders', [OrdersController::class, 'index'])
+    ->name('orders')
+    ->middleware('auth');
+
+Route::get('orders/create', [OrdersController::class, 'create'])
+    ->name('orders.create')
+    ->middleware('auth');
+
+Route::post('orders', [OrdersController::class, 'store'])
+    ->name('orders.store')
+    ->middleware('auth');
+
+Route::get('orders/{organization}/edit', [OrdersController::class, 'edit'])
+    ->name('organizations.edit')
+    ->middleware('auth');
+
+Route::put('orders/{organization}', [OrdersController::class, 'update'])
+    ->name('orders.update')
+    ->middleware('auth');
+
+Route::delete('orders/{organization}', [OrdersController::class, 'destroy'])
+    ->name('orders.destroy')
+    ->middleware('auth');
+
+Route::put('orders/{organization}/restore', [OrdersController::class, 'restore'])
+    ->name('orders.restore')
+    ->middleware('auth');
+
 // Organizations
+
 
 Route::get('organizations', [OrganizationsController::class, 'index'])
     ->name('organizations')
